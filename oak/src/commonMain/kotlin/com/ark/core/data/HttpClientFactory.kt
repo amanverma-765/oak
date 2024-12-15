@@ -10,9 +10,9 @@ import io.ktor.client.plugins.logging.Logging
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 
-object HttpClientFactory {
+internal object HttpClientFactory {
 
-    fun create(engine: HttpClientEngine): HttpClient {
+    internal fun create(engine: HttpClientEngine): HttpClient {
         return HttpClient(engine) {
             install(ContentNegotiation) {
                 json(

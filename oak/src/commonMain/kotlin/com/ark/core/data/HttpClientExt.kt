@@ -10,7 +10,7 @@ import io.ktor.util.network.UnresolvedAddressException
 import kotlinx.coroutines.ensureActive
 import kotlin.coroutines.coroutineContext
 
-suspend inline fun <reified T> safeCall(
+internal suspend inline fun <reified T> safeCall(
     execute: () -> HttpResponse
 ): ApiResult<T, DataError.Remote> {
     val response = try {
@@ -27,7 +27,7 @@ suspend inline fun <reified T> safeCall(
     return responseToResult(response)
 }
 
-suspend inline fun <reified T> responseToResult(
+internal suspend inline fun <reified T> responseToResult(
     response: HttpResponse
 ): ApiResult<T, DataError.Remote> {
     return when(response.status.value) {
