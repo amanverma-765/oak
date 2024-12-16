@@ -10,6 +10,7 @@ kotlinx-datetime = "0.6.1"
 kermit = "2.0.5"
 ktor = "3.0.1"
 koin = "4.0.0"
+jetbrains-kotlin-jvm = "2.0.20"
 
 [libraries]
 
@@ -35,3 +36,4 @@ koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
 multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrains-kotlin-jvm" }
