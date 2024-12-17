@@ -8,9 +8,10 @@ data class ProductCatalog(
     val productUrl: String,
     val imgUrl: String,
     val title: String,
-    val mrp: Int,
-    val displayPrice: Int?,
+    val mrp: Float?,
+    val displayPrice: Float?,
     val discountPercent: Float?,
+    val discount: Float?,
     val rating: Float?,
     val ratingCount: Int?
 )

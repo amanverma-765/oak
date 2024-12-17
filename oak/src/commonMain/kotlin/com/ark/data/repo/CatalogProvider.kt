@@ -1,19 +1,14 @@
-package com.ark.domain.repo
+package com.ark.data.repo
 
 import com.ark.core.domain.ApiResponse
 import com.ark.core.domain.DataError
-import com.ark.domain.model.MarketPlace
 import com.ark.domain.model.ProductCatalog
 import com.ark.domain.model.SearchFilter
 
-
-internal interface ProductCatalogRepo {
-
+internal interface CatalogProvider {
     suspend fun fetchProductCatalog(
         query: String,
         page: Int,
-        filter: SearchFilter,
-        marketPlaces: List<MarketPlace>
+        filter: SearchFilter
     ): ApiResponse<List<ProductCatalog>, DataError>
-
 }

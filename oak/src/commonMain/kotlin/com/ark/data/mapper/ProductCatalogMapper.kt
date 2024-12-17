@@ -17,7 +17,8 @@ internal object ProductCatalogMapper {
             displayPrice = this.displayPrice,
             discountPercent = this.discountPercent,
             rating = this.rating,
-            ratingCount = this.ratingCount
+            ratingCount = this.ratingCount,
+            discount = this.discount
         )
     }
 }

@@ -1,6 +1,9 @@
 package com.ark.api
 
+import com.ark.core.domain.ApiResponse
+import com.ark.core.domain.DataError
 import com.ark.domain.model.MarketPlace
+import com.ark.domain.model.ProductCatalog
 import com.ark.domain.model.SearchFilter
 import com.ark.domain.usecase.ProductCatalogUseCase
 import org.koin.core.component.KoinComponent
@@ -14,13 +17,13 @@ class OakCatalogManager: KoinComponent {
         query: String,
         page: Int,
         filter: SearchFilter,
-        marketPlace: MarketPlace
-    ) {
-        productCatalogUseCase.fetchProductCatalog(
+        marketPlaces: List<MarketPlace>
+    ): ApiResponse<List<ProductCatalog>, DataError> {
+        return productCatalogUseCase.fetchProductCatalog(
             query = query,
             page = page,
             filter = filter,
-            marketPlace = marketPlace
+            marketPlaces = marketPlaces
         )
     }
 }

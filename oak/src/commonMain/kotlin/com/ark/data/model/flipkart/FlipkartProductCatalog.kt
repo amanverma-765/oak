@@ -9,12 +9,13 @@ internal data class FlipkartProductCatalog(
     val productUrl: String,
     val imgUrl: String,
     val title: String,
-    val mrp: Int,
-    val displayPrice: Int?,
+    val mrp: Float?,
+    val displayPrice: Float?,
     val discountPercent: Float?,
+    val availability: String?,
     val rating: Float?,
     val ratingCount: Int?,
     val reviewCount: Int?,
-    val keySpecs: List<String?>,
-    val minKeySpecs: List<String?>
+    val keySpecs: List<String>,
+    val discount: Float?
 )

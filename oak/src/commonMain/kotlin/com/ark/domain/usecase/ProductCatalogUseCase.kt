@@ -15,13 +15,13 @@ internal class ProductCatalogUseCase(
         query: String,
         page: Int,
         filter: SearchFilter,
-        marketPlace: MarketPlace
-    ): ApiResponse<List<ProductCatalog>, DataError.Remote> {
+        marketPlaces: List<MarketPlace>
+    ): ApiResponse<List<ProductCatalog>, DataError> {
         return productCatalogRepo.fetchProductCatalog(
             query = query,
             page = page,
             filter = filter,
-            marketPlace = marketPlace
+            marketPlaces = marketPlaces
         )
     }
 }

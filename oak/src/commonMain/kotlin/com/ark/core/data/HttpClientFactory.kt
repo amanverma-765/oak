@@ -4,6 +4,8 @@ import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
+import io.ktor.client.plugins.cookies.AcceptAllCookiesStorage
+import io.ktor.client.plugins.cookies.HttpCookies
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
@@ -31,7 +33,10 @@ internal object HttpClientFactory {
                         println(message)
                     }
                 }
-                level = LogLevel.ALL
+                level = LogLevel.INFO
+            }
+            install(HttpCookies) {
+                storage = AcceptAllCookiesStorage()
             }
         }
     }

@@ -1,6 +1,7 @@
 package com.ark.demo
 
 import com.ark.api.OakCatalogManager
+import com.ark.core.domain.ApiResponse
 import com.ark.domain.model.MarketPlace
 import com.ark.domain.model.SearchFilter
 import com.ark.koin.OakInitialiser
@@ -12,11 +13,20 @@ suspend fun main() {
 
     val oakCatalogManager = OakCatalogManager()
 
-    oakCatalogManager.fetchCatalog(
-        query = "iphone",
+    val resp = oakCatalogManager.fetchCatalog(
+        query = "Samsung smartphone",
         page = 1,
-        filter = SearchFilter.FEATURED,
-        marketPlace = MarketPlace.FLIPKART
+        filter = SearchFilter.DISCOUNT_DESCENDING,
+        marketPlaces = listOf(MarketPlace.FLIPKART)
     )
+
+    when (resp) {
+        is ApiResponse.Error -> Unit
+        is ApiResponse.Success -> {
+            resp.data.forEach {
+                println("MRP: ${it.mrp} PRICE: ${it.displayPrice} DISCPER: ${it.discountPercent} DISC: ${it.discount}")
+            }
+        }
+    }
 
 }
