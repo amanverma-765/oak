@@ -1,10 +1,10 @@
 package com.ark.domain.model
 
-import com.ark.core.utils.ProductIdTransformer
+import com.ark.core.utils.ProductIdTransformer.MarketplaceId
 
 data class ProductCatalog(
     val marketPlace: MarketPlace,
-    var id: ProductIdTransformer.MarketplaceId,
+    var id: MarketplaceId,
     val productUrl: String,
     val imgUrl: String,
     val title: String,

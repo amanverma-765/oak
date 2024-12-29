@@ -10,22 +10,22 @@ import com.ark.koin.OakInitialiser
 suspend fun main() {
 
     OakInitialiser.initOak()
-
     val oakCatalogManager = OakCatalogManager()
 
     val resp = oakCatalogManager.fetchCatalog(
-        query = "Samsung smartphone",
+        query = "iphone 15",
         page = 1,
-        filter = SearchFilter.DISCOUNT_DESCENDING,
+        filter = SearchFilter.FEATURED,
         marketPlaces = listOf(MarketPlace.AMAZON)
     )
 
     when (resp) {
-        is ApiResponse.Error -> Unit
+        is ApiResponse.Error -> {
+            println(resp.error)
+        }
+
         is ApiResponse.Success -> {
-            resp.data.forEach {
-                println("MRP: ${it.mrp} PRICE: ${it.displayPrice} DISCPER: ${it.discountPercent} DISC: ${it.discount} URl: ${it.productUrl}")
-            }
+            println(resp.data)
         }
     }
 
