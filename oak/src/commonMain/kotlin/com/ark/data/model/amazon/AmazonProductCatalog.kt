@@ -1,8 +1,8 @@
-package com.ark.data.model.flipkart
+package com.ark.data.model.amazon
 
 import com.ark.core.utils.ProductIdTransformer.OriginalId
 
-internal data class FlipkartProductCatalog(
+internal data class AmazonProductCatalog(
     val id: OriginalId,
     val productUrl: String,
     val imgUrl: String,
@@ -13,7 +13,5 @@ internal data class FlipkartProductCatalog(
     val availability: String?,
     val rating: Float?,
     val ratingCount: Int?,
-    val reviewCount: Int?,
-    val keySpecs: List<String>,
     val discount: Float?
 )

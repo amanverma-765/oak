@@ -17,14 +17,14 @@ suspend fun main() {
         query = "Samsung smartphone",
         page = 1,
         filter = SearchFilter.DISCOUNT_DESCENDING,
-        marketPlaces = listOf(MarketPlace.FLIPKART)
+        marketPlaces = listOf(MarketPlace.AMAZON)
     )
 
     when (resp) {
         is ApiResponse.Error -> Unit
         is ApiResponse.Success -> {
             resp.data.forEach {
-                println("MRP: ${it.mrp} PRICE: ${it.displayPrice} DISCPER: ${it.discountPercent} DISC: ${it.discount}")
+                println("MRP: ${it.mrp} PRICE: ${it.displayPrice} DISCPER: ${it.discountPercent} DISC: ${it.discount} URl: ${it.productUrl}")
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.ark.data.mapper
 
+import com.ark.data.model.amazon.AmazonProductCatalog
 import com.ark.data.model.flipkart.FlipkartProductCatalog
 import com.ark.domain.model.MarketPlace
 import com.ark.domain.model.ProductCatalog
@@ -10,6 +11,22 @@ internal object ProductCatalogMapper {
         return ProductCatalog(
             marketPlace = MarketPlace.FLIPKART,
             id = this.id.toMarketplaceId(MarketPlace.FLIPKART),
+            productUrl = this.productUrl,
+            imgUrl = this.imgUrl,
+            title = this.title,
+            mrp = this.mrp,
+            displayPrice = this.displayPrice,
+            discountPercent = this.discountPercent,
+            rating = this.rating,
+            ratingCount = this.ratingCount,
+            discount = this.discount
+        )
+    }
+
+    internal fun AmazonProductCatalog.toMainProductCatalog(): ProductCatalog {
+        return ProductCatalog(
+            marketPlace = MarketPlace.AMAZON,
+            id = this.id.toMarketplaceId(MarketPlace.AMAZON),
             productUrl = this.productUrl,
             imgUrl = this.imgUrl,
             title = this.title,

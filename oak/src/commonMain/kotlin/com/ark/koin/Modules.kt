@@ -1,6 +1,7 @@
 package com.ark.koin
 
 import com.ark.core.data.HttpClientFactory
+import com.ark.data.remote.amazon.AmazonCatalogProvider
 import com.ark.data.remote.flipkart.FlipkartCatalogProvider
 import com.ark.data.repo.CatalogProvider
 import com.ark.data.repo.ProductCatalogRepoImpl
@@ -21,6 +22,7 @@ internal val sharedModule = module {
     single { HttpClientFactory.create(engine = get()) }
 
     singleOf(::FlipkartCatalogProvider)
+    singleOf(::AmazonCatalogProvider)
 
     singleOf(::ProductCatalogRepoImpl).bind<ProductCatalogRepo>()
 

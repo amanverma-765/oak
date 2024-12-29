@@ -20,9 +20,9 @@ internal class FlipkartRepo(
         filter: SearchFilter
     ): ApiResponse<List<ProductCatalog>, DataError> {
         return flipkartCatalogProvider.fetchProductCatalog(
-            query,
-            page,
-            filter.toFlipkartSearchFilter()
+            query = query,
+            page = page,
+            filter = filter.toFlipkartSearchFilter()
         ).mapSuccess { catalog -> catalog.map { it.toMainProductCatalog() } }
     }
 

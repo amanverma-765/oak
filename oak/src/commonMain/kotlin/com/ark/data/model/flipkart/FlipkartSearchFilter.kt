@@ -1,6 +1,6 @@
 package com.ark.data.model.flipkart
 
-enum class FlipkartSearchFilter(val filterString: String) {
+internal enum class FlipkartSearchFilter(val filterString: String) {
     PRICE_ASCENDING("price_asc"),        // Price Low to High
     PRICE_DESCENDING("price_desc"),      // Price High to Low
     FEATURED("relevance"),               // Featured by Platform

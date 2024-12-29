@@ -41,6 +41,7 @@ kotlin {
             implementation(libs.ktor.client.logging)
             implementation(libs.koin.core)
             implementation(libs.koin.compose)
+            implementation(libs.fleeksoft.ksoup)
         }
 
         commonTest.dependencies {
@@ -55,6 +56,7 @@ kotlin {
         jvmMain.dependencies {
             implementation(libs.kotlinx.coroutines.swing)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.jvm.logback)
         }
 
         iosMain.dependencies {
