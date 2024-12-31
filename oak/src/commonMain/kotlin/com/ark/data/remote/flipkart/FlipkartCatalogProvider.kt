@@ -86,13 +86,47 @@ internal class FlipkartCatalogProvider(
         try {
 
             val searchResponseJson = Json.parseToJsonElement(response).jsonObject
-            val slots = searchResponseJson["RESPONSE"]?.jsonObject?.get("slots")?.jsonArray
+            val slots = searchResponseJson["RESPONSE"]
+                ?.jsonObject
+                ?.get("slots")
+                ?.jsonArray
 
-            return slots?.filter {
-                it.jsonObject["widget"]?.jsonObject?.get("type")?.jsonPrimitive?.contentOrNull == "PRODUCT_SUMMARY"
-            }?.mapNotNull {
-                parseProductCatalog(it)
-            } ?: emptyList()
+            return slots?.asSequence()
+                ?.filter { slot ->
+                    slot.jsonObject["widget"]
+                        ?.jsonObject
+                        ?.get("type")
+                        ?.jsonPrimitive
+                        ?.contentOrNull == "PRODUCT_SUMMARY"
+                }
+                ?.flatMap { slot ->
+                    val productInfoArray = slot.jsonObject["widget"]
+                        ?.jsonObject
+                        ?.get("data")
+                        ?.jsonObject
+                        ?.get("products")
+                        ?.jsonArray
+
+                    productInfoArray?.mapNotNull { productInfoElement ->
+                        val productInfo = productInfoElement.jsonObject["productInfo"]
+                            ?.jsonObject
+                            ?.get("value")
+
+                        if (productInfo != null) {
+                            try {
+                                parseProductCatalog(productInfo)
+                            } catch (e: Exception) {
+                                Logger.e("Error parsing product info: $productInfo", e)
+                                null
+                            }
+                        } else {
+                            Logger.e("Missing productInfo")
+                            null
+                        }
+                    } ?: emptyList()
+                }
+                ?.toList()
+                ?: emptyList()
 
         } catch (ex: Exception) {
             Logger.e("Error while parsing Flipkart response", ex)
@@ -103,24 +137,9 @@ internal class FlipkartCatalogProvider(
     private fun parseProductCatalog(productResponse: JsonElement): FlipkartProductCatalog? {
         try {
 
-            val productInfo = productResponse.jsonObject["widget"]
-                ?.jsonObject?.get("data")
-                ?.jsonObject?.get("products")
-                ?.jsonArray
-                ?.mapNotNull { it.jsonObject["productInfo"]?.jsonObject?.get("value") }
-                ?: run {
-                    Logger.e("Error while parsing flipkart productInfo ")
-                    return null
-                }
-
-            val item = productInfo.firstOrNull() ?: run {
-                Logger.e("Error while parsing flipkart productInfo ")
-                return null
-            }
-
             // Extracting product Id
             val originalId = ProductIdTransformer.OriginalId.create(
-                item.jsonObject["id"]?.jsonPrimitive?.contentOrNull
+                productResponse.jsonObject["id"]?.jsonPrimitive?.contentOrNull
                     ?: run {
                         Logger.e("Flipkart product id not found")
                         return null
@@ -129,7 +148,7 @@ internal class FlipkartCatalogProvider(
 
             // Extracting image URL
             val imageUrl =
-                item.jsonObject["media"]?.jsonObject?.get("images")?.jsonArray
+                productResponse.jsonObject["media"]?.jsonObject?.get("images")?.jsonArray
                     ?.firstOrNull()?.jsonObject?.get("url")?.jsonPrimitive?.contentOrNull
                     ?.replace("{@width}", flipkartImageSpecs(ScreenType.LIST).width)
                     ?.replace("{@height}", flipkartImageSpecs(ScreenType.LIST).height)
@@ -141,7 +160,7 @@ internal class FlipkartCatalogProvider(
 
             // Extracting title
             val title =
-                item.jsonObject["titles"]?.jsonObject?.get("title")?.jsonPrimitive?.contentOrNull
+                productResponse.jsonObject["titles"]?.jsonObject?.get("title")?.jsonPrimitive?.contentOrNull
                     ?: run {
                         Logger.e("Flipkart product title not found")
                         return null
@@ -149,36 +168,36 @@ internal class FlipkartCatalogProvider(
 
             // Extracting rating
             val rating =
-                item.jsonObject["rating"]?.jsonObject?.get("average")?.jsonPrimitive?.floatOrNull
+                productResponse.jsonObject["rating"]?.jsonObject?.get("average")?.jsonPrimitive?.floatOrNull
 
             // Extracting rating count
             val ratingCount =
-                item.jsonObject["rating"]?.jsonObject?.get("count")?.jsonPrimitive?.intOrNull
+                productResponse.jsonObject["rating"]?.jsonObject?.get("count")?.jsonPrimitive?.intOrNull
 
             // Extracting rating
             val reviewCount =
-                item.jsonObject["rating"]?.jsonObject?.get("reviewCount")?.jsonPrimitive?.intOrNull
+                productResponse.jsonObject["rating"]?.jsonObject?.get("reviewCount")?.jsonPrimitive?.intOrNull
 
             // Extracting product URL
             val productUrl =
-                "https://www.flipkart.com" + (item.jsonObject["baseUrl"]?.jsonPrimitive?.contentOrNull)
+                "https://www.flipkart.com" + (productResponse.jsonObject["baseUrl"]?.jsonPrimitive?.contentOrNull)
 
             // Extracting key specs
             val keySpecs =
-                item.jsonObject["keySpecs"]?.jsonArray?.mapNotNull { it.jsonPrimitive.contentOrNull }
+                productResponse.jsonObject["keySpecs"]?.jsonArray?.mapNotNull { it.jsonPrimitive.contentOrNull }
                     ?: emptyList()
 
             // Extracting availability
             val availability =
-                item.jsonObject["availability"]?.jsonObject?.get("displayState")?.jsonPrimitive?.contentOrNull
+                productResponse.jsonObject["availability"]?.jsonObject?.get("displayState")?.jsonPrimitive?.contentOrNull
 
             // Extracting mrp
             val mrp =
-                item.jsonObject["pricing"]?.jsonObject?.get("mrp")?.jsonObject?.get("decimalValue")?.jsonPrimitive?.floatOrNull
+                productResponse.jsonObject["pricing"]?.jsonObject?.get("mrp")?.jsonObject?.get("decimalValue")?.jsonPrimitive?.floatOrNull
 
             // Extracting price
             val displayPrice =
-                item.jsonObject["pricing"]?.jsonObject?.get("finalPrice")?.jsonObject?.get("decimalValue")?.jsonPrimitive?.floatOrNull
+                productResponse.jsonObject["pricing"]?.jsonObject?.get("finalPrice")?.jsonObject?.get("decimalValue")?.jsonPrimitive?.floatOrNull
 
             // Calculating discount
             val discount = if (mrp != null && displayPrice != null && mrp > displayPrice) {

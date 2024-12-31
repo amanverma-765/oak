@@ -16,6 +16,7 @@ internal object HttpClientFactory {
 
     internal fun create(engine: HttpClientEngine): HttpClient {
         return HttpClient(engine) {
+            followRedirects = false
             install(ContentNegotiation) {
                 json(
                     json = Json {
