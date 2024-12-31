@@ -13,10 +13,10 @@ suspend fun main() {
     val oakCatalogManager = OakCatalogManager()
 
     val resp = oakCatalogManager.fetchCatalog(
-        query = "iphone 15",
+        query = "ghaghra chooli",
         page = 1,
         filter = SearchFilter.FEATURED,
-        marketPlaces = listOf(MarketPlace.AMAZON)
+        marketPlaces = listOf(MarketPlace.FLIPKART, MarketPlace.AMAZON)
     )
 
     when (resp) {
@@ -25,7 +25,9 @@ suspend fun main() {
         }
 
         is ApiResponse.Success -> {
-            println(resp.data)
+            resp.data.forEach {
+                println("${it.marketPlace}: ${it.displayPrice}: ${it.productUrl}")
+            }
         }
     }
 

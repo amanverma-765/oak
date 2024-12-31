@@ -25,8 +25,9 @@ internal class ProductCatalogRepoImpl(
             return ApiResponse.Error(DataError.Remote.UnknownError("No marketplaces selected"))
         }
 
+        val uniqueMarketPlaces = marketPlaces.toSet()
         return coroutineScope {
-            val deferredResponses = marketPlaces.toSet().mapNotNull { marketPlace ->
+            val deferredResponses = uniqueMarketPlaces.mapNotNull { marketPlace ->
                 catalogProviders[marketPlace]?.let { provider ->
                     async { provider.fetchProductCatalog(query, page, filter) }
                 }
@@ -45,7 +46,7 @@ internal class ProductCatalogRepoImpl(
             }
 
             if (combinedProducts.isNotEmpty()) {
-                val filteredProducts = applyFilter(combinedProducts, filter)
+                val filteredProducts = applyFilter(combinedProducts, filter, uniqueMarketPlaces)
                 ApiResponse.Success(filteredProducts)
             } else {
                 ApiResponse.Error(
@@ -56,15 +57,19 @@ internal class ProductCatalogRepoImpl(
         }
     }
 
-    private fun applyFilter(products: List<ProductCatalog>, filter: SearchFilter): List<ProductCatalog> {
+    private fun applyFilter(
+        products: List<ProductCatalog>,
+        filter: SearchFilter,
+        marketplaces: Set<MarketPlace>
+    ): List<ProductCatalog> {
         return when (filter) {
             SearchFilter.PRICE_ASCENDING -> products.sortedBy { it.displayPrice ?: it.mrp ?: Float.MAX_VALUE }
             SearchFilter.PRICE_DESCENDING -> products.sortedByDescending { it.displayPrice ?: it.mrp ?: Float.MIN_VALUE }
             SearchFilter.POPULARITY_DESCENDING -> products.sortedByDescending { it.ratingCount ?: 0 }
             SearchFilter.RATING_DESCENDING -> products.sortedByDescending { it.rating ?: 0f }
             SearchFilter.DISCOUNT_DESCENDING -> products.sortedByDescending { it.discountPercent ?: 0f }
-            SearchFilter.FEATURED -> products
-            SearchFilter.LATEST_ARRIVAL -> products
+            SearchFilter.FEATURED -> if (marketplaces.size > 1) products.shuffled() else products
+            SearchFilter.LATEST_ARRIVAL -> if (marketplaces.size > 1) products.shuffled() else products
         }
     }
 }
