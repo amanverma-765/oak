@@ -9,15 +9,15 @@ import com.ark.domain.usecase.ProductCatalogUseCase
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 
-class OakCatalogManager: KoinComponent {
+class OakCatalogManager : KoinComponent {
 
     private val productCatalogUseCase: ProductCatalogUseCase by inject()
 
     suspend fun fetchCatalog(
         query: String,
-        page: Int,
-        filter: SearchFilter,
-        marketPlaces: List<MarketPlace>
+        marketPlaces: List<MarketPlace>,
+        page: Int = 1,
+        filter: SearchFilter = SearchFilter.FEATURED
     ): ApiResponse<List<ProductCatalog>, DataError> {
         return productCatalogUseCase.fetchProductCatalog(
             query = query,

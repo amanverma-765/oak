@@ -13,9 +13,9 @@ suspend fun main() {
     val oakCatalogManager = OakCatalogManager()
 
     val resp = oakCatalogManager.fetchCatalog(
-        query = "ghaghra chooli",
+        query = "beauty products",
         page = 1,
-        filter = SearchFilter.FEATURED,
+        filter = SearchFilter.LATEST_ARRIVAL,
         marketPlaces = listOf(MarketPlace.FLIPKART, MarketPlace.AMAZON)
     )
 
