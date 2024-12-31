@@ -13,7 +13,7 @@ internal interface ProductCatalogRepo {
         query: String,
         page: Int,
         filter: SearchFilter,
-        marketPlaces: List<MarketPlace>
+        marketPlaces: Set<MarketPlace>
     ): ApiResponse<List<ProductCatalog>, DataError>
 
 }

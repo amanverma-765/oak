@@ -16,14 +16,16 @@ class OakCatalogManager : KoinComponent {
     suspend fun fetchCatalog(
         query: String,
         marketPlaces: List<MarketPlace>,
-        page: Int = 1,
-        filter: SearchFilter = SearchFilter.FEATURED
+        filter: SearchFilter = SearchFilter.FEATURED,
+        page: Int = 1
     ): ApiResponse<List<ProductCatalog>, DataError> {
+
+        val uniqueMarketplaces = marketPlaces.toSet()
         return productCatalogUseCase.fetchProductCatalog(
             query = query,
             page = page,
             filter = filter,
-            marketPlaces = marketPlaces
+            marketPlaces = uniqueMarketplaces
         )
     }
 }

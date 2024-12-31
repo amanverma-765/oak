@@ -18,16 +18,15 @@ internal class ProductCatalogRepoImpl(
         query: String,
         page: Int,
         filter: SearchFilter,
-        marketPlaces: List<MarketPlace>
+        marketPlaces: Set<MarketPlace>
     ): ApiResponse<List<ProductCatalog>, DataError> {
 
         if (marketPlaces.isEmpty()) {
             return ApiResponse.Error(DataError.Remote.UnknownError("No marketplaces selected"))
         }
 
-        val uniqueMarketPlaces = marketPlaces.toSet()
         return coroutineScope {
-            val deferredResponses = uniqueMarketPlaces.mapNotNull { marketPlace ->
+            val deferredResponses = marketPlaces.mapNotNull { marketPlace ->
                 catalogProviders[marketPlace]?.let { provider ->
                     async { provider.fetchProductCatalog(query, page, filter) }
                 }
@@ -46,7 +45,7 @@ internal class ProductCatalogRepoImpl(
             }
 
             if (combinedProducts.isNotEmpty()) {
-                val filteredProducts = applyFilter(combinedProducts, filter, uniqueMarketPlaces)
+                val filteredProducts = applyFilter(combinedProducts, filter, marketPlaces)
                 ApiResponse.Success(filteredProducts)
             } else {
                 ApiResponse.Error(

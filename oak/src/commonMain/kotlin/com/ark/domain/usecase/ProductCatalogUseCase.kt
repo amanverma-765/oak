@@ -15,7 +15,7 @@ internal class ProductCatalogUseCase(
         query: String,
         page: Int,
         filter: SearchFilter,
-        marketPlaces: List<MarketPlace>
+        marketPlaces: Set<MarketPlace>
     ): ApiResponse<List<ProductCatalog>, DataError> {
         return productCatalogRepo.fetchProductCatalog(
             query = query,
