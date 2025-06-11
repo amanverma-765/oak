@@ -32,3 +32,4 @@ includeBuild("convention-plugins")
 include(":oak")
 
 include(":demo")
+include(":lucy")

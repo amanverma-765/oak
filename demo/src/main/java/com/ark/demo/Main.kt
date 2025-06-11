@@ -14,10 +14,10 @@ suspend fun main() {
     val oakCatalogManager = OakCatalogManager()
 
     val resp = oakCatalogManager.fetchCatalog(
-        query = "Samsung smartphone",
+        query = "blue lehanga",
         page = 1,
         filter = SearchFilter.DISCOUNT_DESCENDING,
-        marketPlaces = listOf(MarketPlace.FLIPKART)
+        marketPlaces = listOf(MarketPlace.FLIPKART, MarketPlace.AMAZON)
     )
 
     when (resp) {

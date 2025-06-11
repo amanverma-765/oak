@@ -1,6 +1,6 @@
 [versions]
 kotlin = "2.1.0"
-agp = "8.6.1"
+agp = "8.10.1"
 android-min-sdk = "21"
 android-compile-sdk = "35"
 kotlinx-coroutines = "1.9.0"
@@ -8,11 +8,18 @@ kotlinx-serialization = "1.7.3"
 kotlinx-datetime = "0.6.1"
 kermit = "2.0.5"
 ktor = "3.0.2"
-koin = "4.0.0"
+koin = "4.0.4"
 jetbrains-kotlin-jvm = "2.0.21"
 logback = "1.5.15"
 ksoup = "0.2.1"
-
+core-ktx = "1.16.0"
+junit = "4.13.2"
+junit-version = "1.2.1"
+espresso-core = "3.6.1"
+lifecycle-runtime-ktx = "2.9.1"
+activity-compose = "1.10.1"
+compose-bom = "2024.09.00"
+coil = "3.2.0"
 
 
 
@@ -33,9 +40,26 @@ ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "kto
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor" }
 koin-core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
 koin-compose = { module = "io.insert-koin:koin-compose", version.ref = "koin" }
+koin-android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
+koin-compose-vm = { module = "io.insert-koin:koin-compose-viewmodel", version.ref = "koin" }
 jvm-logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 fleeksoft-ksoup = { module = "com.fleeksoft.ksoup:ksoup", version.ref = "ksoup" }
-
+core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junit-version" }
+espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
+lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
+activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
+ui = { group = "androidx.compose.ui", name = "ui" }
+ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
+ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
+ui-tooling-preview = { group = "androidx.compose.ui", name = "ui-tooling-preview" }
+ui-test-manifest = { group = "androidx.compose.ui", name = "ui-test-manifest" }
+ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
+material3 = { group = "androidx.compose.material3", name = "material3" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-okhttp = { module = "io.coil-kt.coil3:coil-network-okhttp", version.ref = "coil" }
 
 
 
@@ -46,3 +70,6 @@ multiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotl
 android-library = { id = "com.android.library", version.ref = "agp" }
 kotlinx-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrains-kotlin-jvm" }
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
