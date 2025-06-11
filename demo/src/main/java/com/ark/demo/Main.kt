@@ -17,7 +17,7 @@ suspend fun main() {
         query = "Samsung smartphone",
         page = 1,
         filter = SearchFilter.DISCOUNT_DESCENDING,
-        marketPlaces = listOf(MarketPlace.AMAZON)
+        marketPlaces = listOf(MarketPlace.FLIPKART)
     )
 
     when (resp) {
